@@ -1,16 +1,16 @@
 var boardHeight = 50;
 var boardWidth = 50;
+var alienCount = 50;
 
 function start() {
-    var board = document.getElementById('board');
-    var alien = document.createElement('div');
-    alien.className = 'alien sprite';
-    board.appendChild(alien);
-    var tower = document.createElement('div');
-    tower.className = 'tower sprite';
-    board.appendChild(tower);
-
     initBoard();
+    
+    initAliens();
+
+    setInterval(updateAliens, 1000);
+
+    // addAlien();
+    // addTower();
 }
 
 function initBoard()
@@ -41,3 +41,31 @@ function layout() {
         }
     }
 }
+
+// function addAlien()
+// {
+//     var x = Math.random(0, boardWidth);
+//     var y = Math.random(0, boardWidth);
+//     var board = document.getElementById('board');
+//     var alien = document.createElement('div');
+//     alien.className = 'alien sprite';
+//     board.appendChild(alien);
+
+//     setInterval(updateAliens, 1000);
+// }
+
+// function moveAlien(alien)
+// {
+//     var x = Math.random(0, boardWidth);
+//     var y = Math.random(0, boardWidth);
+//     alien.style.top = x + 'px';
+//     alien.style.left = y + 'px';
+// }
+
+// function addTower()
+// {
+//     var board = document.getElementById('board');
+//     var tower = document.createElement('div');
+//     tower.className = 'tower sprite';
+//     board.appendChild(tower);
+// }
