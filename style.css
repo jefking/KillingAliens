@@ -1,5 +1,5 @@
 body {
-    background: darkgray;
+    background: lightgray;
 }
 .board
 {
@@ -19,7 +19,7 @@ body {
 }
 .alien
 {
-    background-color: red;
+    background-color: navy;
 }
 .point
 {

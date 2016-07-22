@@ -7,6 +7,8 @@ var speed = 250;
 var health = 100;
 
 function start() {
+    updateScore();
+    
     initBoard();
 
     initAliens(alienCount);
@@ -61,10 +63,21 @@ function renderAlien(alienModel) {
 }
 
 function removeAlien(alienModel) {
-
-    //remove health, etc. 
-
     respawn(alienModel.id);
+
+    health--;
+
+    updateScore();
+}
+
+function updateScore() {
+    if (0 >= health) {
+        //game over
+    }
+    else {
+        var h = document.getElementById('health');
+        h.innerText = health;
+    }
 }
 // function addTower()
 // {
