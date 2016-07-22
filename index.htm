@@ -10,18 +10,12 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<body onload="start" onresize="layout">
+<div name="board">
+    <div class="point sprite"></div>
     <div class="tower sprite"></div>
     <div class="alien sprite"></div>
-
-    <div class="point">
-    </div>
-    <div class="point">
-    </div>
-    <div class="point">
-    </div>
-    <div class="point">
-    </div>
+</div>
 
     <script src="app.js"></script>
 </body>
