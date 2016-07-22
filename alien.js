@@ -1,4 +1,5 @@
 var aliens = [];
+var spawnDelay = 30;
 
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
@@ -24,6 +25,12 @@ function updateAliens() {
 }
 
 function updateAlien(alien) {
+
+    if (alien.delay > 0) {
+        alien.delay--;
+        return;
+    }
+
     var nextCoordinates = alien.path.shift();
     if (nextCoordinates == undefined) {
         removeAlien(alien);
@@ -67,7 +74,7 @@ function getPath(start, end) {
                 if (deltaY > 0) { currentY++; } else { currentY--; }
             }
         }
-
+               
         path.push([currentX, currentY]);
     }
     return path;
@@ -76,8 +83,8 @@ function getPath(start, end) {
 function spawn(id) {
     var x = 0;
     var y = 0;
+    var startingEdge = Math.floor(Math.random() * 4);
     var random = Math.random();
-    var startingEdge = Math.floor(random * 4);
     switch (startingEdge) {
         case 0:
             x = Math.floor(random * boardWidth);
@@ -104,6 +111,7 @@ function spawn(id) {
         x: x,
         y: y,
         hp: 100,
-        path: getPath([x, y], [targetX, targetY])
+        path: getPath([x, y], [targetX, targetY]),
+        delay: Math.floor(Math.random() * spawnDelay),
     };
 }
