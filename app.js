@@ -3,8 +3,8 @@ var boardWidth = 50;
 var alienCount = 50;
 var targetX = 25;
 var targetY = 25;
-var speed = 250;
-var health = 10;
+var speed = 100;
+var health = 1000;
 
 function start() {
     updateScore();
@@ -19,6 +19,10 @@ function start() {
 function initBoard() {
     var board = document.getElementById('board');
     board.innerHTML = '';
+
+    var center = document.createElement('div');
+    center.className = 'center sprite';
+    board.appendChild(center);
 
     for (i = 0; i < (boardHeight * boardWidth); i++) {
         var point = document.createElement('div');
