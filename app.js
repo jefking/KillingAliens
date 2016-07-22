@@ -1,24 +1,28 @@
-function start()
-{
+function start() {
+    var board = document.getElementById('board');
+    var alien = document.createElement('div');
+    alien.className = 'alien sprite';
+    board.appendChild(alien);
+    var tower = document.createElement('div');
+    tower.className = 'tower sprite';
+    board.appendChild(tower);
     layout();
 }
 
-function layout()
-{
+function layout() {
     var board = document.getElementById('board');
-    console.log(board);
-    var point = board.createElement('div');
-    point.className = 'point sprite';
-    // var tower = board.createElement('<div class="tower sprite"></div>');
-    // var sprite = board.createElement('<div class="sprite sprite"></div>');
-    board.appendChild(point);
-    // board.appendChild(tower);
-    // board.appendChild(sprite);
+    board.innerHTML = '';
 
-    // var max = 4;
-    // for (i = 0; i < max; i++)
-    // {
-    //     board.addChild(point);
-    //     window.screen.width / (i + 1);
-    // }
+    var max = 4;
+    var heightMax = window.innerHeight / max;
+    var widthMax = window.innerWidth / max;
+    for (i = 0; i < max; i++) {
+        for (j = 0; j < max; j++) {
+            var point = document.createElement('div');
+            point.className = 'point sprite';
+            point.style.top = heightMax * i + 'px';
+            point.style.left = widthMax * j + 'px';
+            board.appendChild(point);
+        }
+    }
 }
