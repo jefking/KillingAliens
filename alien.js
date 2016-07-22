@@ -1,5 +1,5 @@
 var aliens = [];
-var spawnDelay = 30;
+var spawnDelay = 120;
 
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
@@ -91,14 +91,14 @@ function spawn(id) {
             break;
         case 1:
             x = Math.floor(random * boardWidth);
-            y = boardHeight;
+            y = boardHeight - 1;
             break;
         case 2:
             x = 0;
             y = Math.floor(random * boardHeight);
             break;
         case 3:
-            x = boardWidth;
+            x = boardWidth - 1;
             y = Math.floor(random * boardHeight);
             break;
         default:
