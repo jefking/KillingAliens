@@ -9,6 +9,10 @@ var health = 100;
 function start() {
     updateScore();
 
+    var center = document.getElementById('center');
+    center.style.top = ((window.innerHeight / 2)-center.style.height) + 'px';
+    center.style.left = ((window.innerWidth / 2)-center.style.width) + 'px';
+
     initBoard();
 
     initAliens(alienCount);
@@ -19,10 +23,6 @@ function start() {
 function initBoard() {
     var board = document.getElementById('board');
     board.innerHTML = '';
-
-    var center = document.createElement('div');
-    center.className = 'center sprite';
-    board.appendChild(center);
 
     for (i = 0; i < (boardHeight * boardWidth); i++) {
         var point = document.createElement('div');
