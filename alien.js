@@ -1,8 +1,19 @@
 var aliens = [];
+
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
         var newAlien = spawn(i);
         aliens.push(newAlien);
+    }
+}
+
+function respawn(id) {
+    var alien = spawn(id);
+    for (var i = 0; i < alienCount; i++) {
+        if (aliens[i].id == id) {
+            aliens[i] = alien;
+            return 0;
+        }
     }
 }
 
@@ -14,16 +25,22 @@ function updateAliens() {
 
 function updateAlien(alien) {
     var nextCoordinates = alien.path.shift();
-    alien.x = nextCoordinates[0];
-    alien.y = nextCoordinates[1];
-    renderAlien(alien); // todo: move rendering to a better spot
+    if (nextCoordinates == undefined) {
+        removeAlien(alien);
+    }
+    else {
+        alien.x = nextCoordinates[0];
+        alien.y = nextCoordinates[1];
+
+        renderAlien(alien); // todo: move rendering to a better spot
+    }
 }
 
 function getPath(start, end) {
 
     currentX = start[0];
     currentY = start[1];
-    var path = [ [currentX, currentY] ];
+    var path = [[currentX, currentY]];
 
     // Todo: use proper path finding algorithm
     // Account for obstacles in the grid
@@ -32,7 +49,7 @@ function getPath(start, end) {
 
         var deltaX = end[0] - currentX;
         var deltaY = end[1] - currentY;
-        
+
         // should we move horizontally or vertically?
         // the probability of moving horizontally should be proportional to deltaX/deltaY
         if (deltaX == 0) {
@@ -43,16 +60,15 @@ function getPath(start, end) {
         }
         else {
             var chanceX = Math.abs(deltaX) / (Math.abs(deltaX) + Math.abs(deltaY));
-            if (Math.random() < chanceX) { 
+            if (Math.random() < chanceX) {
                 if (deltaX > 0) { currentX++; } else { currentX--; }
             }
-            else
-            {
+            else {
                 if (deltaY > 0) { currentY++; } else { currentY--; }
             }
         }
 
-        path.push( [currentX, currentY]);
+        path.push([currentX, currentY]);
     }
     return path;
 }
@@ -88,6 +104,6 @@ function spawn(id) {
         x: x,
         y: y,
         hp: 100,
-        path: getPath([x, y], [targetX, targetY]) 
+        path: getPath([x, y], [targetX, targetY])
     };
 }

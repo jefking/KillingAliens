@@ -3,20 +3,19 @@ var boardWidth = 50;
 var alienCount = 50;
 var targetX = 25;
 var targetY = 25;
+var speed = 250;
 
 function start() {
     initBoard();
-    
+
     initAliens(alienCount);
 
-    setInterval(updateAliens, 1000);
+    setInterval(updateAliens, speed);
 
-    // addAlien();
     // addTower();
 }
 
-function initBoard()
-{
+function initBoard() {
     var board = document.getElementById('board');
     board.innerHTML = '';
 
@@ -31,13 +30,13 @@ function initBoard()
 
 function layout() {
     var board = document.getElementById('board');
-    
+
     var current = 0;
-    
+
     var rowHeight = window.innerHeight / boardHeight;
     var colHeight = window.innerWidth / boardWidth;
-    for (i = rowHeight / 2; i < window.innerHeight; i+=rowHeight) {
-        for (j = colHeight / 2; j <  window.innerWidth; j+=colHeight, current++) {
+    for (i = rowHeight / 2; i < window.innerHeight; i += rowHeight) {
+        for (j = colHeight / 2; j < window.innerWidth; j += colHeight, current++) {
             board.childNodes[current].style.top = i + 'px';
             board.childNodes[current].style.left = j + 'px';
         }
@@ -53,33 +52,19 @@ function renderAlien(alienModel) {
         var board = document.getElementById('board');
         sprite = document.createElement('div');
         sprite.className = 'alien sprite';
-        sprite.id = alienModel.id;
-        board.appendChild(sprite);        
+        sprite.id = "alien-" + alienModel.id;
+        board.appendChild(sprite);
     }
     sprite.style.top = rowHeight * alienModel.x + 'px';
     sprite.style.left = colHeight * alienModel.y + 'px';
 }
 
-// function addAlien()
-// {
-//     var x = Math.random(0, boardWidth);
-//     var y = Math.random(0, boardWidth);
-//     var board = document.getElementById('board');
-//     var alien = document.createElement('div');
-//     alien.className = 'alien sprite';
-//     board.appendChild(alien);
+function removeAlien(alienModel) {
 
-//     setInterval(updateAliens, 1000);
-// }
+    //remove health, etc. 
 
-// function moveAlien(alien)
-// {
-//     var x = Math.random(0, boardWidth);
-//     var y = Math.random(0, boardWidth);
-//     alien.style.top = x + 'px';
-//     alien.style.left = y + 'px';
-// }
-
+    respawn(alienModel.id);
+}
 // function addTower()
 // {
 //     var board = document.getElementById('board');
