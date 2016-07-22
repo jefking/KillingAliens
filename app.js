@@ -13,15 +13,15 @@ function layout() {
     var board = document.getElementById('board');
     board.innerHTML = '';
 
-    var max = 4;
-    var heightMax = window.innerHeight / max;
-    var widthMax = window.innerWidth / max;
-    for (i = 0; i < max; i++) {
-        for (j = 0; j < max; j++) {
+    var max = 10;
+    var rowHeight = window.innerHeight / max;
+    var colHeight = window.innerWidth / max;
+    for (i = rowHeight / 2; i < window.innerHeight; i+=rowHeight) {
+        for (j = colHeight / 2; j <  window.innerWidth; j+=colHeight) {
             var point = document.createElement('div');
             point.className = 'point sprite';
-            point.style.top = heightMax * i + 'px';
-            point.style.left = widthMax * j + 'px';
+            point.style.top = i + 'px';
+            point.style.left = j + 'px';
             board.appendChild(point);
         }
     }

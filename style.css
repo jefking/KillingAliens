@@ -15,7 +15,7 @@ body {
 }
 .tower
 {
-    background-color: black;
+    background-color: blue;
 }
 .alien
 {
@@ -23,7 +23,7 @@ body {
 }
 .point
 {
-    width: 5px;
-    height: 5px;
-    background-color: blue;
+    width: 1px;
+    height: 1px;
+    background-color: black;
 }
