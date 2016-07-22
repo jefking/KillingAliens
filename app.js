@@ -4,6 +4,7 @@ var alienCount = 50;
 var targetX = 25;
 var targetY = 25;
 var speed = 250;
+var health = 100;
 
 function start() {
     initBoard();
