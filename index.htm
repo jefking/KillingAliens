@@ -8,16 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A game about killing all aliens.">
     <link rel="stylesheet" href="style.css" />
+    <script src="app.js"></script>
 </head>
 
-<body onload="start" onresize="layout">
-<div name="board">
-    <div class="point sprite"></div>
-    <div class="tower sprite"></div>
-    <div class="alien sprite"></div>
-</div>
-
-    <script src="app.js"></script>
+<body onload="start();" onresize="layout();">
+    <div id="board">
+    </div>
 </body>
-
 </html>
