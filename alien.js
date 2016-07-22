@@ -3,19 +3,14 @@ var spawnDelay = 30;
 
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
-        var newAlien = spawn(i);
-        aliens.push(newAlien);
+        aliens[i] = spawn(i);
     }
 }
 
 function respawn(id) {
-    var alien = spawn(id);
-    for (var i = 0; i < alienCount; i++) {
-        if (aliens[i].id == id) {
-            aliens[i] = alien;
-            return 0;
-        }
-    }
+    var newAlien = spawn(id);
+    aliens[id] = newAlien;
+    return newAlien;
 }
 
 function updateAliens() {
@@ -33,6 +28,10 @@ function updateAlien(alien) {
 
     var nextCoordinates = alien.path.shift();
     if (nextCoordinates == undefined) {
+        // Alien reached the target!
+        health--;
+        updateScore();
+
         removeAlien(alien);
     }
     else {

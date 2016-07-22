@@ -3,8 +3,8 @@ var boardWidth = 50;
 var alienCount = 50;
 var targetX = 25;
 var targetY = 25;
-var speed = 100;
-var health = 1000;
+var speed = 500;
+var health = 100;
 
 function start() {
     updateScore();
@@ -65,11 +65,8 @@ function renderAlien(alienModel) {
 }
 
 function removeAlien(alienModel) {
-    respawn(alienModel.id);
-
-    health--;
-
-    updateScore();
+    var newAlien = respawn(alienModel.id);
+    renderAlien(newAlien);
 }
 
 function updateScore() {
