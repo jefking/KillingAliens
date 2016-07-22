@@ -1,7 +1,8 @@
 var aliens = [];
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
-        aliens.push(spawn());
+        var newAlien = spawn(i);
+        aliens.push(newAlien);
     }
 }
 
@@ -15,6 +16,7 @@ function updateAlien(alien) {
     var nextCoordinates = alien.path.shift();
     alien.x = nextCoordinates[0];
     alien.y = nextCoordinates[1];
+    renderAlien(alien); // todo: move rendering to a better spot
 }
 
 function getPath(start, end) {
@@ -55,33 +57,34 @@ function getPath(start, end) {
     return path;
 }
 
-function spawn() {
+function spawn(id) {
     var x = 0;
     var y = 0;
     var random = Math.random();
-    var startingEdge = Math.ceil(random * 4);
+    var startingEdge = Math.floor(random * 4);
     switch (startingEdge) {
         case 0:
-            x = Math.ceil(random * boardWidth);
+            x = Math.floor(random * boardWidth);
             y = 0;
             break;
         case 1:
-            x = Math.ceil(random * boardWidth);
+            x = Math.floor(random * boardWidth);
             y = boardHeight;
             break;
-        case 0:
+        case 2:
             x = 0;
-            y = Math.ceil(random * boardHeight);
+            y = Math.floor(random * boardHeight);
             break;
-        case 0:
+        case 3:
             x = boardWidth;
-            y = Math.ceil(random * boardHeight);
+            y = Math.floor(random * boardHeight);
             break;
         default:
             break;
     }
 
     return {
+        id: id,
         x: x,
         y: y,
         hp: 100,

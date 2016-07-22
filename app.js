@@ -1,11 +1,13 @@
 var boardHeight = 50;
 var boardWidth = 50;
 var alienCount = 50;
+var targetX = 25;
+var targetY = 25;
 
 function start() {
     initBoard();
     
-    initAliens();
+    initAliens(alienCount);
 
     setInterval(updateAliens, 1000);
 
@@ -40,6 +42,22 @@ function layout() {
             board.childNodes[current].style.left = j + 'px';
         }
     }
+}
+
+function renderAlien(alienModel) {
+    var rowHeight = window.innerHeight / boardHeight;
+    var colHeight = window.innerWidth / boardWidth; // todo: share scaling code and rename colHeight
+
+    var sprite = document.getElementById("alien-" + alienModel.id);
+    if (sprite == undefined) {
+        var board = document.getElementById('board');
+        sprite = document.createElement('div');
+        sprite.className = 'alien sprite';
+        sprite.id = alienModel.id;
+        board.appendChild(sprite);        
+    }
+    sprite.style.top = rowHeight * alienModel.x + 'px';
+    sprite.style.left = colHeight * alienModel.y + 'px';
 }
 
 // function addAlien()
