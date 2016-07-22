@@ -4,18 +4,16 @@ var alienCount = 50;
 var targetX = 25;
 var targetY = 25;
 var speed = 250;
-var health = 100;
+var health = 10;
 
 function start() {
     updateScore();
-    
+
     initBoard();
 
     initAliens(alienCount);
 
     setInterval(updateAliens, speed);
-
-    // addTower();
 }
 
 function initBoard() {
@@ -71,13 +69,19 @@ function removeAlien(alienModel) {
 }
 
 function updateScore() {
-    if (0 >= health) {
-        //game over
+    if (0 > health) {
+        death();
     }
     else {
         var h = document.getElementById('health');
         h.innerText = health;
     }
+}
+function death() {
+    var scoreboard = document.getElementById('scoreboard');
+    scoreboard.style.backgroundColor = 'red';
+
+    aliens = null;
 }
 // function addTower()
 // {
