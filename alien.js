@@ -1,10 +1,20 @@
 var aliens = [];
 var spawnDelay = 120;
+var vectorMap = [];
+
+function getIdFromCoordinates(x, y) {
+    return y * boardWidth + x;
+}
 
 function initAliens(count) {
     for (var i = 0; i < count; i++) {
         aliens[i] = spawn(i);
     }
+}
+
+function initVectorMap() {
+    var distance = 0;
+    
 }
 
 function respawn(id) {
