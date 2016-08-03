@@ -1,6 +1,6 @@
 var boardHeight = 50;
 var boardWidth = 50;
-var alienCount = 50;
+var alienCount = 30;
 var targetX = 25;
 var targetY = 25;
 var speed = 500;
@@ -9,9 +9,10 @@ var health = 100;
 function start() {
     updateScore();
 
-    initBoard();
-
     initAliens(alienCount);
+    initVectorMap();
+
+    initBoard();
 
     setInterval(updateAliens, speed);
 }
@@ -44,6 +45,7 @@ function layout() {
         for (j = colHeight / 2; j < window.innerWidth; j += colHeight, current++) {
             board.childNodes[current].style.top = i + 'px';
             board.childNodes[current].style.left = j + 'px';
+            board.childNodes[current].style.backgroundColor = 'rgb(211,' + (255 - heatMap[current]) + ',211)'; 
         }
     }
 }
@@ -82,7 +84,7 @@ function death() {
     var scoreboard = document.getElementById('scoreboard');
     scoreboard.style.backgroundColor = 'red';
 
-    aliens = null;
+    aliens = [];
 }
 // function addTower()
 // {

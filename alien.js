@@ -1,5 +1,6 @@
 var aliens = [];
 var spawnDelay = 120;
+var heatMap = [];
 var vectorMap = [];
 
 function getIdFromCoordinates(x, y) {
@@ -13,8 +14,79 @@ function initAliens(count) {
 }
 
 function initVectorMap() {
-    var distance = 0;
-    
+    var addedIds = [];
+    var idsToCheck = [{'id': getIdFromCoordinates(targetX, targetY), 'distance':0}];
+    addedIds[getIdFromCoordinates(targetX, targetY)] = true;
+
+    // work in progress: an obstacle
+    /*
+    for (var obstacle = 470; obstacle < 490; obstacle++) {
+        addedIds[obstacle] = true;
+        heatMap[id] = -1;
+    }
+    */
+
+    while (idsToCheck != null && idsToCheck.length > 0) {
+        var payload = idsToCheck.shift();
+        var id = payload['id'];
+        var distance = payload['distance'];
+
+        heatMap[id] = distance;
+
+        // TODO: If a neighboring tile is not accessible, don't visit it
+        if (id + 1 < boardHeight * boardWidth && addedIds[id + 1] !== true) {
+            idsToCheck.push({'id': (id + 1), 'distance': (distance + 1)});
+            addedIds[id + 1] = true;
+        }
+        if (id - 1 > 0 && addedIds[id - 1] !== true) {
+            idsToCheck.push({'id': (id - 1), 'distance': (distance + 1)});
+            addedIds[id - 1] = true;
+        }
+        if (id + boardWidth < boardHeight * boardWidth && addedIds[id + boardWidth] !== true) {
+            idsToCheck.push({'id': (id + boardWidth), 'distance': (distance + 1)});
+            addedIds[id + boardWidth] = true;
+        }
+        if (id - boardWidth > 0 && addedIds[id - boardWidth] !== true) {
+            idsToCheck.push({'id': (id - boardWidth), 'distance': (distance + 1)});
+            addedIds[id - boardWidth] = true;
+        }
+    }
+
+    for (var x = 0; x < boardWidth; x++) {
+        for (var y = 0; y < boardHeight; y++) {
+            var id = getIdFromCoordinates(x, y);
+            var dx = 0;
+            var dy = 0;
+
+            if (x <= 1 || heatMap[id - 1] == -1) {
+                dx = 1;
+            }
+            else if (x >= boardWidth - 1 || heatMap[id + 1] == -1)
+            {
+                dx = -1;
+            }
+            else
+            {
+                dx = heatMap[id - 1] - heatMap[id + 1];
+                if (isNaN(dx)) { console.log("wrong dX:: " + id + " " + x + " " + y + " heat: " + heatMap[id - 1] + " " + heatMap[id + 1])};
+            }
+
+            if (y <= 1 || heatMap[id - boardWidth] == -1) {
+                dy = 1;
+            }
+            else if (y >= boardHeight - 1 || heatMap[id + boardWidth] == -1)
+            {
+                dy = -1;
+            }
+            else
+            {
+                dy = heatMap[id - boardWidth] - heatMap[id + boardWidth];
+                if (isNaN(dy)) { console.log("wrong dY:: " + id + " " + x + " " + y + " heat: " + heatMap[id - boardWidth] + " " + heatMap[id + boardWidth])};
+            }
+
+            vectorMap[id] = {'x': dx, 'y': dy};
+        }
+    }
 }
 
 function respawn(id) {
@@ -36,8 +108,13 @@ function updateAlien(alien) {
         return;
     }
 
-    var nextCoordinates = alien.path.shift();
-    if (nextCoordinates == undefined) {
+    var alienCoordinates = getIdFromCoordinates(alien.x, alien.y);
+    if (isNaN(alienCoordinates) === true) {
+        console.log("Incorrect ID " + alienCoordinates + " for " + JSON.stringify(alien));
+    }
+    alien.x += vectorMap[alienCoordinates].x;
+    alien.y += vectorMap[alienCoordinates].y;
+    if (Math.abs(targetX - alien.x) < 2 && Math.abs(targetY - alien.y) < 2) {
         // Alien reached the target!
         health--;
         updateScore();
@@ -45,48 +122,8 @@ function updateAlien(alien) {
         removeAlien(alien);
     }
     else {
-        alien.x = nextCoordinates[0];
-        alien.y = nextCoordinates[1];
-
         renderAlien(alien); // todo: move rendering to a better spot
     }
-}
-
-function getPath(start, end) {
-
-    currentX = start[0];
-    currentY = start[1];
-    var path = [[currentX, currentY]];
-
-    // Todo: use proper path finding algorithm
-    // Account for obstacles in the grid
-
-    while (currentX != end[0] || currentY != end[1]) {
-
-        var deltaX = end[0] - currentX;
-        var deltaY = end[1] - currentY;
-
-        // should we move horizontally or vertically?
-        // the probability of moving horizontally should be proportional to deltaX/deltaY
-        if (deltaX == 0) {
-            if (deltaY > 0) { currentY++; } else { currentY--; }
-        }
-        else if (deltaY == 0) {
-            if (deltaX > 0) { currentX++; } else { currentX--; }
-        }
-        else {
-            var chanceX = Math.abs(deltaX) / (Math.abs(deltaX) + Math.abs(deltaY));
-            if (Math.random() < chanceX) {
-                if (deltaX > 0) { currentX++; } else { currentX--; }
-            }
-            else {
-                if (deltaY > 0) { currentY++; } else { currentY--; }
-            }
-        }
-               
-        path.push([currentX, currentY]);
-    }
-    return path;
 }
 
 function spawn(id) {
@@ -120,7 +157,6 @@ function spawn(id) {
         x: x,
         y: y,
         hp: 100,
-        path: getPath([x, y], [targetX, targetY]),
         delay: Math.floor(Math.random() * spawnDelay),
     };
 }
